@@ -41,7 +41,7 @@ import { match } from '../../utils/match'
 import {
   RenderFeatures,
   forwardRefWithAs,
-  render,
+  useRender,
   type HasDisplayName,
   type PropsForFeatures,
   type RefProp,
@@ -286,6 +286,8 @@ let InternalDialog = forwardRefWithAs(function InternalDialog<
     }
   }
 
+  let render = useRender()
+
   return (
     <ResetOpenClosedProvider>
       <ForcePortalRoot force={true}>
@@ -450,6 +452,8 @@ function PanelFn<TTag extends ElementType = typeof DEFAULT_PANEL_TAG>(
   let Wrapper = transition ? TransitionChild : Fragment
   let wrapperProps = transition ? { unmount } : {}
 
+  let render = useRender()
+
   return (
     <Wrapper {...wrapperProps}>
       {render({
@@ -493,6 +497,8 @@ function BackdropFn<TTag extends ElementType = typeof DEFAULT_BACKDROP_TAG>(
 
   let Wrapper = transition ? TransitionChild : Fragment
   let wrapperProps = transition ? { unmount } : {}
+
+  let render = useRender()
 
   return (
     <Wrapper {...wrapperProps}>
@@ -541,6 +547,8 @@ function TitleFn<TTag extends ElementType = typeof DEFAULT_TITLE_TAG>(
 
   let ourProps = { ref: titleRef, id }
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -555,25 +563,25 @@ function TitleFn<TTag extends ElementType = typeof DEFAULT_TITLE_TAG>(
 export interface _internal_ComponentDialog extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_DIALOG_TAG>(
     props: DialogProps<TTag> & RefProp<typeof DialogFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentDialogPanel extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_PANEL_TAG>(
     props: DialogPanelProps<TTag> & RefProp<typeof PanelFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentDialogBackdrop extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_BACKDROP_TAG>(
     props: DialogBackdropProps<TTag> & RefProp<typeof BackdropFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentDialogTitle extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_TITLE_TAG>(
     props: DialogTitleProps<TTag> & RefProp<typeof TitleFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentDialogDescription extends _internal_ComponentDescription {}

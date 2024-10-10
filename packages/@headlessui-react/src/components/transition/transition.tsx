@@ -29,7 +29,7 @@ import {
   RenderStrategy,
   compact,
   forwardRefWithAs,
-  render,
+  useRender,
   type HasDisplayName,
   type PropsForFeatures,
   type RefProp,
@@ -475,6 +475,8 @@ function TransitionChildFn<TTag extends ElementType = typeof DEFAULT_TRANSITION_
   if (transitionData.enter) openClosedState |= State.Opening
   if (transitionData.leave) openClosedState |= State.Closing
 
+  let render = useRender()
+
   return (
     <NestingContext.Provider value={nesting}>
       <OpenClosedProvider value={openClosedState}>
@@ -571,6 +573,8 @@ function TransitionRootFn<TTag extends ElementType = typeof DEFAULT_TRANSITION_C
     props.beforeLeave?.()
   })
 
+  let render = useRender()
+
   return (
     <NestingContext.Provider value={nestingBag}>
       <TransitionContext.Provider value={transitionBag}>
@@ -620,13 +624,13 @@ function ChildFn<TTag extends ElementType = typeof DEFAULT_TRANSITION_CHILD_TAG>
 export interface _internal_ComponentTransitionRoot extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_TRANSITION_CHILD_TAG>(
     props: TransitionRootProps<TTag> & RefProp<typeof TransitionRootFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentTransitionChild extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_TRANSITION_CHILD_TAG>(
     props: TransitionChildProps<TTag> & RefProp<typeof TransitionChildFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 let TransitionRoot = forwardRefWithAs(TransitionRootFn) as _internal_ComponentTransitionRoot

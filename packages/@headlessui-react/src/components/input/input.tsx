@@ -10,7 +10,7 @@ import type { Props } from '../../types'
 import {
   forwardRefWithAs,
   mergeProps,
-  render,
+  useRender,
   type HasDisplayName,
   type RefProp,
 } from '../../utils/render'
@@ -78,6 +78,8 @@ function InputFn<TTag extends ElementType = typeof DEFAULT_INPUT_TAG>(
     return { disabled, invalid, hover, focus, autofocus: autoFocus } satisfies InputRenderPropArg
   }, [disabled, invalid, hover, focus, autoFocus])
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -90,7 +92,7 @@ function InputFn<TTag extends ElementType = typeof DEFAULT_INPUT_TAG>(
 export interface _internal_ComponentInput extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_INPUT_TAG>(
     props: InputProps<TTag> & RefProp<typeof InputFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export let Input = forwardRefWithAs(InputFn) as _internal_ComponentInput

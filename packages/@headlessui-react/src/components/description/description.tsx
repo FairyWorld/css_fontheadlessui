@@ -15,7 +15,7 @@ import { useIsoMorphicEffect } from '../../hooks/use-iso-morphic-effect'
 import { useSyncRefs } from '../../hooks/use-sync-refs'
 import { useDisabled } from '../../internal/disabled'
 import type { Props } from '../../types'
-import { forwardRefWithAs, render, type HasDisplayName, type RefProp } from '../../utils/render'
+import { forwardRefWithAs, useRender, type HasDisplayName, type RefProp } from '../../utils/render'
 
 // ---
 
@@ -53,7 +53,7 @@ interface DescriptionProviderProps extends SharedData {
 
 export function useDescriptions(): [
   string | undefined,
-  (props: DescriptionProviderProps) => JSX.Element,
+  (props: DescriptionProviderProps) => React.JSX.Element,
 ] {
   let [descriptionIds, setDescriptionIds] = useState<string[]>([])
 
@@ -121,6 +121,8 @@ function DescriptionFn<TTag extends ElementType = typeof DEFAULT_DESCRIPTION_TAG
   let slot = useMemo(() => ({ ...context.slot, disabled }), [context.slot, disabled])
   let ourProps = { ref: descriptionRef, ...context.props, id }
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -134,7 +136,7 @@ function DescriptionFn<TTag extends ElementType = typeof DEFAULT_DESCRIPTION_TAG
 export interface _internal_ComponentDescription extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_DESCRIPTION_TAG>(
     props: DescriptionProps<TTag> & RefProp<typeof DescriptionFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 let DescriptionRoot = forwardRefWithAs(DescriptionFn) as _internal_ComponentDescription

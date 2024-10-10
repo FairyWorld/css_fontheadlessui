@@ -33,7 +33,7 @@ import {
   RenderFeatures,
   forwardRefWithAs,
   mergeProps,
-  render,
+  useRender,
   type HasDisplayName,
   type PropsForFeatures,
   type RefProp,
@@ -290,6 +290,8 @@ function TooltipFn<TTag extends ElementType = typeof DEFAULT_TOOLTIP_TAG>(
   )
   let actions = useMemo<_Actions>(() => ({ showTooltip, hideTooltip }), [showTooltip, hideTooltip])
 
+  let render = useRender()
+
   return (
     <DescriptionProvider value={describedBy}>
       <FloatingProvider>
@@ -395,6 +397,8 @@ function TriggerFn<TTag extends ElementType = typeof DEFAULT_TRIGGER_TAG>(
     hoverProps
   )
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -448,6 +452,8 @@ function PanelFn<TTag extends ElementType = typeof DEFAULT_PANEL_TAG>(
 
   let slot = useMemo(() => ({}) satisfies PanelRenderPropArg, [])
 
+  let render = useRender()
+
   return render({
     ourProps: {
       ...ourProps,
@@ -473,19 +479,19 @@ function PanelFn<TTag extends ElementType = typeof DEFAULT_PANEL_TAG>(
 export interface _internal_ComponentTooltip extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_TOOLTIP_TAG>(
     props: TooltipProps<TTag> & RefProp<typeof TooltipFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentTrigger extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_TRIGGER_TAG>(
     props: TooltipTriggerProps<TTag> & RefProp<typeof TriggerFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentPanel extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_PANEL_TAG>(
     props: TooltipPanelProps<TTag> & RefProp<typeof PanelFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export let Tooltip = forwardRefWithAs(TooltipFn) as _internal_ComponentTooltip

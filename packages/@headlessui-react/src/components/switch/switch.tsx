@@ -32,7 +32,7 @@ import { attemptSubmit } from '../../utils/form'
 import {
   forwardRefWithAs,
   mergeProps,
-  render,
+  useRender,
   type HasDisplayName,
   type RefProp,
 } from '../../utils/render'
@@ -73,6 +73,8 @@ function GroupFn<TTag extends ElementType = typeof DEFAULT_GROUP_TAG>(
 
   let ourProps = {}
   let theirProps = props
+
+  let render = useRender()
 
   return (
     <DescriptionProvider name="Switch.Description" value={describedby}>
@@ -244,6 +246,8 @@ function SwitchFn<TTag extends ElementType = typeof DEFAULT_SWITCH_TAG>(
     return onChange?.(defaultChecked)
   }, [onChange, defaultChecked])
 
+  let render = useRender()
+
   return (
     <>
       {name != null && (
@@ -265,13 +269,13 @@ function SwitchFn<TTag extends ElementType = typeof DEFAULT_SWITCH_TAG>(
 export interface _internal_ComponentSwitch extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_SWITCH_TAG>(
     props: SwitchProps<TTag> & RefProp<typeof SwitchFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentSwitchGroup extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_GROUP_TAG>(
     props: SwitchGroupProps<TTag> & RefProp<typeof GroupFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentSwitchLabel extends _internal_ComponentLabel {}

@@ -17,7 +17,7 @@ import { useSyncRefs } from '../../hooks/use-sync-refs'
 import { useDisabled } from '../../internal/disabled'
 import { useProvidedId } from '../../internal/id'
 import type { Props } from '../../types'
-import { forwardRefWithAs, render, type HasDisplayName, type RefProp } from '../../utils/render'
+import { forwardRefWithAs, useRender, type HasDisplayName, type RefProp } from '../../utils/render'
 
 // ---
 
@@ -57,7 +57,7 @@ interface LabelProviderProps extends SharedData {
 
 export function useLabels({ inherit = false } = {}): [
   string | undefined,
-  (props: LabelProviderProps & { inherit?: boolean }) => JSX.Element,
+  (props: LabelProviderProps & { inherit?: boolean }) => React.JSX.Element,
 ] {
   let parentLabelledBy = useLabelledBy()
   let [labelIds, setLabelIds] = useState<string[]>([])
@@ -203,6 +203,8 @@ function LabelFn<TTag extends ElementType = typeof DEFAULT_LABEL_TAG>(
     }
   }
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -217,7 +219,7 @@ function LabelFn<TTag extends ElementType = typeof DEFAULT_LABEL_TAG>(
 export interface _internal_ComponentLabel extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_LABEL_TAG>(
     props: LabelProps<TTag> & RefProp<typeof LabelFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 let LabelRoot = forwardRefWithAs(LabelFn) as _internal_ComponentLabel

@@ -8,7 +8,7 @@ import type { Props } from '../../types'
 import {
   forwardRefWithAs,
   mergeProps,
-  render,
+  useRender,
   type HasDisplayName,
   type RefProp,
 } from '../../utils/render'
@@ -47,6 +47,8 @@ function DataInteractiveFn<TTag extends ElementType = typeof DEFAULT_DATA_INTERA
     [hover, focus, active]
   )
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -59,7 +61,7 @@ function DataInteractiveFn<TTag extends ElementType = typeof DEFAULT_DATA_INTERA
 export interface _internal_ComponentDataInteractive extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_DATA_INTERACTIVE_TAG>(
     props: DataInteractiveProps<TTag> & RefProp<typeof DataInteractiveFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export let DataInteractive = forwardRefWithAs(

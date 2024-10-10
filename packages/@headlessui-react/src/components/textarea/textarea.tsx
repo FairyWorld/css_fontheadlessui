@@ -10,7 +10,7 @@ import type { Props } from '../../types'
 import {
   forwardRefWithAs,
   mergeProps,
-  render,
+  useRender,
   type HasDisplayName,
   type RefProp,
 } from '../../utils/render'
@@ -78,6 +78,8 @@ function TextareaFn<TTag extends ElementType = typeof DEFAULT_TEXTAREA_TAG>(
     return { disabled, invalid, hover, focus, autofocus: autoFocus } satisfies TextareaRenderPropArg
   }, [disabled, invalid, hover, focus, autoFocus])
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -90,7 +92,7 @@ function TextareaFn<TTag extends ElementType = typeof DEFAULT_TEXTAREA_TAG>(
 export interface _internal_ComponentTextarea extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_TEXTAREA_TAG>(
     props: TextareaProps<TTag> & RefProp<typeof TextareaFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export let Textarea = forwardRefWithAs(TextareaFn) as _internal_ComponentTextarea

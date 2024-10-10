@@ -5,7 +5,7 @@ import { useResolvedTag } from '../../hooks/use-resolved-tag'
 import { useSyncRefs } from '../../hooks/use-sync-refs'
 import { DisabledProvider, useDisabled } from '../../internal/disabled'
 import type { Props } from '../../types'
-import { forwardRefWithAs, render, type HasDisplayName } from '../../utils/render'
+import { forwardRefWithAs, useRender, type HasDisplayName } from '../../utils/render'
 import { useLabels } from '../label/label'
 
 let DEFAULT_FIELDSET_TAG = 'fieldset' as const
@@ -50,6 +50,8 @@ function FieldsetFn<TTag extends ElementType = typeof DEFAULT_FIELDSET_TAG>(
           'aria-disabled': disabled || undefined,
         }
 
+  let render = useRender()
+
   return (
     <DisabledProvider value={disabled}>
       <LabelProvider>
@@ -66,7 +68,9 @@ function FieldsetFn<TTag extends ElementType = typeof DEFAULT_FIELDSET_TAG>(
 }
 
 export interface _internal_ComponentFieldset extends HasDisplayName {
-  <TTag extends ElementType = typeof DEFAULT_FIELDSET_TAG>(props: FieldsetProps<TTag>): JSX.Element
+  <TTag extends ElementType = typeof DEFAULT_FIELDSET_TAG>(
+    props: FieldsetProps<TTag>
+  ): React.JSX.Element
 }
 
 export let Fieldset = forwardRefWithAs(FieldsetFn) as _internal_ComponentFieldset

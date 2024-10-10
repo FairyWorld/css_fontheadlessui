@@ -23,7 +23,7 @@ import { optionalRef, useSyncRefs } from '../../hooks/use-sync-refs'
 import { usePortalRoot } from '../../internal/portal-force-root'
 import type { Props } from '../../types'
 import { env } from '../../utils/env'
-import { forwardRefWithAs, render, type HasDisplayName, type RefProp } from '../../utils/render'
+import { forwardRefWithAs, useRender, type HasDisplayName, type RefProp } from '../../utils/render'
 
 function usePortalTarget(ref: MutableRefObject<HTMLElement | null>): HTMLElement | null {
   let forceInRoot = usePortalRoot()
@@ -129,6 +129,7 @@ let InternalPortalFn = forwardRefWithAs(function InternalPortalFn<
     }
   })
 
+  let render = useRender()
   if (!ready) return null
 
   let ourProps = { ref: portalRef }
@@ -154,6 +155,9 @@ function PortalFn<TTag extends ElementType = typeof DEFAULT_PORTAL_TAG>(
   let portalRef = useSyncRefs(ref)
 
   let { enabled = true, ...theirProps } = props
+
+  let render = useRender()
+
   return enabled ? (
     <InternalPortalFn {...theirProps} ref={portalRef} />
   ) : (
@@ -192,6 +196,8 @@ function GroupFn<TTag extends ElementType = typeof DEFAULT_GROUP_TAG>(
   let groupRef = useSyncRefs(ref)
 
   let ourProps = { ref: groupRef }
+
+  let render = useRender()
 
   return (
     <PortalGroupContext.Provider value={target}>
@@ -249,13 +255,13 @@ export function useNestedPortals() {
 export interface _internal_ComponentPortal extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_PORTAL_TAG>(
     props: PortalProps<TTag> & RefProp<typeof PortalFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentPortalGroup extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_GROUP_TAG>(
     props: PortalGroupProps<TTag> & RefProp<typeof GroupFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 let PortalRoot = forwardRefWithAs(PortalFn) as unknown as _internal_ComponentPortal

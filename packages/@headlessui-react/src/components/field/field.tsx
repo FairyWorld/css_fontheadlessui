@@ -6,7 +6,7 @@ import { DisabledProvider, useDisabled } from '../../internal/disabled'
 import { FormFieldsProvider } from '../../internal/form-fields'
 import { IdProvider } from '../../internal/id'
 import type { Props } from '../../types'
-import { forwardRefWithAs, render, type HasDisplayName } from '../../utils/render'
+import { forwardRefWithAs, useRender, type HasDisplayName } from '../../utils/render'
 import { useDescriptions } from '../description/description'
 import { useLabels } from '../label/label'
 
@@ -44,6 +44,8 @@ function FieldFn<TTag extends ElementType = typeof DEFAULT_FIELD_TAG>(
     'aria-disabled': disabled || undefined,
   }
 
+  let render = useRender()
+
   return (
     <DisabledProvider value={disabled}>
       <LabelProvider value={labelledby}>
@@ -73,7 +75,7 @@ function FieldFn<TTag extends ElementType = typeof DEFAULT_FIELD_TAG>(
 }
 
 export interface _internal_ComponentField extends HasDisplayName {
-  <TTag extends ElementType = typeof DEFAULT_FIELD_TAG>(props: FieldProps<TTag>): JSX.Element
+  <TTag extends ElementType = typeof DEFAULT_FIELD_TAG>(props: FieldProps<TTag>): React.JSX.Element
 }
 
 export let Field = forwardRefWithAs(FieldFn) as _internal_ComponentField

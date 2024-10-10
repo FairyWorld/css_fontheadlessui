@@ -33,7 +33,7 @@ import {
   RenderFeatures,
   forwardRefWithAs,
   mergeProps,
-  render,
+  useRender,
   type HasDisplayName,
   type PropsForFeatures,
   type RefProp,
@@ -320,6 +320,8 @@ function GroupFn<TTag extends ElementType = typeof DEFAULT_TABS_TAG>(
 
   let ourProps = { ref: tabsRef }
 
+  let render = useRender()
+
   return (
     <StableCollection>
       <TabsActionsContext.Provider value={tabsActions}>
@@ -383,6 +385,8 @@ function ListFn<TTag extends ElementType = typeof DEFAULT_LIST_TAG>(
     role: 'tablist',
     'aria-orientation': orientation,
   }
+
+  let render = useRender()
 
   return render({
     ourProps,
@@ -556,6 +560,8 @@ function TabFn<TTag extends ElementType = typeof DEFAULT_TAB_TAG>(
     pressProps
   )
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -588,6 +594,8 @@ function PanelsFn<TTag extends ElementType = typeof DEFAULT_PANELS_TAG>(
 
   let theirProps = props
   let ourProps = { ref: panelsRef }
+
+  let render = useRender()
 
   return render({
     ourProps,
@@ -650,6 +658,8 @@ function PanelFn<TTag extends ElementType = typeof DEFAULT_PANEL_TAG>(
     focusProps
   )
 
+  let render = useRender()
+
   if (!selected && (theirProps.unmount ?? true) && !(theirProps.static ?? false)) {
     return <Hidden aria-hidden="true" {...ourProps} />
   }
@@ -670,31 +680,31 @@ function PanelFn<TTag extends ElementType = typeof DEFAULT_PANEL_TAG>(
 export interface _internal_ComponentTab extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_TAB_TAG>(
     props: TabProps<TTag> & RefProp<typeof TabFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentTabGroup extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_TABS_TAG>(
     props: TabGroupProps<TTag> & RefProp<typeof GroupFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentTabList extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_LIST_TAG>(
     props: TabListProps<TTag> & RefProp<typeof ListFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentTabPanels extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_PANELS_TAG>(
     props: TabPanelsProps<TTag> & RefProp<typeof PanelsFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentTabPanel extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_PANEL_TAG>(
     props: TabPanelProps<TTag> & RefProp<typeof PanelFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 let TabRoot = forwardRefWithAs(TabFn) as _internal_ComponentTab

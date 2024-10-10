@@ -69,8 +69,7 @@ import {
   RenderFeatures,
   forwardRefWithAs,
   mergeProps,
-  render,
-  useMergeRefsFn,
+  useRender,
   type HasDisplayName,
   type PropsForFeatures,
   type RefProp,
@@ -949,6 +948,8 @@ function ComboboxFn<TValue, TTag extends ElementType = typeof DEFAULT_COMBOBOX_T
     return theirOnChange?.(defaultValue)
   }, [theirOnChange, defaultValue])
 
+  let render = useRender()
+
   return (
     <LabelProvider
       value={labelledby}
@@ -1444,6 +1445,8 @@ function InputFn<
     hoverProps
   )
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -1489,7 +1492,6 @@ function ButtonFn<TTag extends ElementType = typeof DEFAULT_BUTTON_TAG>(
   let data = useData('Combobox.Button')
   let actions = useActions('Combobox.Button')
   let buttonRef = useSyncRefs(ref, actions.setButtonElement)
-  let mergeRefs = useMergeRefsFn()
 
   let internalId = useId()
   let {
@@ -1610,8 +1612,9 @@ function ButtonFn<TTag extends ElementType = typeof DEFAULT_BUTTON_TAG>(
     pressProps
   )
 
+  let render = useRender()
+
   return render({
-    mergeRefs,
     ourProps,
     theirProps,
     slot,
@@ -1812,6 +1815,8 @@ function OptionsFn<TTag extends ElementType = typeof DEFAULT_OPTIONS_TAG>(
       ),
     })
   }
+
+  let render = useRender()
 
   return (
     <Portal enabled={portal ? props.static || visible : false}>
@@ -2037,6 +2042,8 @@ function OptionFn<
     onMouseLeave: handleLeave,
   }
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -2055,19 +2062,19 @@ export interface _internal_ComponentCombobox extends HasDisplayName {
     TTag extends ElementType = typeof DEFAULT_COMBOBOX_TAG,
   >(
     props: ComboboxProps<TValue, TMultiple, TTag> & RefProp<typeof ComboboxFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentComboboxButton extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_BUTTON_TAG>(
     props: ComboboxButtonProps<TTag> & RefProp<typeof ButtonFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentComboboxInput extends HasDisplayName {
   <TType, TTag extends ElementType = typeof DEFAULT_INPUT_TAG>(
     props: ComboboxInputProps<TTag, TType> & RefProp<typeof InputFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentComboboxLabel extends _internal_ComponentLabel {}
@@ -2075,7 +2082,7 @@ export interface _internal_ComponentComboboxLabel extends _internal_ComponentLab
 export interface _internal_ComponentComboboxOptions extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_OPTIONS_TAG>(
     props: ComboboxOptionsProps<TTag> & RefProp<typeof OptionsFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export interface _internal_ComponentComboboxOption extends HasDisplayName {
@@ -2084,7 +2091,7 @@ export interface _internal_ComponentComboboxOption extends HasDisplayName {
     TType = Parameters<typeof ComboboxRoot>[0]['value'],
   >(
     props: ComboboxOptionProps<TTag, TType> & RefProp<typeof OptionFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 let ComboboxRoot = forwardRefWithAs(ComboboxFn) as _internal_ComponentCombobox

@@ -26,7 +26,7 @@ import { attemptSubmit } from '../../utils/form'
 import {
   forwardRefWithAs,
   mergeProps,
-  render,
+  useRender,
   type HasDisplayName,
   type RefProp,
 } from '../../utils/render'
@@ -176,6 +176,8 @@ function CheckboxFn<TTag extends ElementType = typeof DEFAULT_CHECKBOX_TAG, TTyp
     return onChange?.(defaultChecked)
   }, [onChange, defaultChecked])
 
+  let render = useRender()
+
   return (
     <>
       {name != null && (
@@ -203,7 +205,7 @@ function CheckboxFn<TTag extends ElementType = typeof DEFAULT_CHECKBOX_TAG, TTyp
 export interface _internal_ComponentCheckbox extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_CHECKBOX_TAG, TType = string>(
     props: CheckboxProps<TTag, TType> & RefProp<typeof CheckboxFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export let Checkbox = forwardRefWithAs(CheckboxFn) as _internal_ComponentCheckbox

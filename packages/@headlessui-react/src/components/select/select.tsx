@@ -11,7 +11,7 @@ import type { Props } from '../../types'
 import {
   forwardRefWithAs,
   mergeProps,
-  render,
+  useRender,
   type HasDisplayName,
   type RefProp,
 } from '../../utils/render'
@@ -89,6 +89,8 @@ function SelectFn<TTag extends ElementType = typeof DEFAULT_SELECT_TAG>(
     } satisfies SelectRenderPropArg
   }, [disabled, invalid, hover, focus, active, autoFocus])
 
+  let render = useRender()
+
   return render({
     ourProps,
     theirProps,
@@ -101,7 +103,7 @@ function SelectFn<TTag extends ElementType = typeof DEFAULT_SELECT_TAG>(
 export interface _internal_ComponentSelect extends HasDisplayName {
   <TTag extends ElementType = typeof DEFAULT_SELECT_TAG>(
     props: SelectProps<TTag> & RefProp<typeof SelectFn>
-  ): JSX.Element
+  ): React.JSX.Element
 }
 
 export let Select = forwardRefWithAs(SelectFn) as _internal_ComponentSelect
